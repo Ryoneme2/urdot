@@ -4,12 +4,15 @@ import React from "react";
 import { useInterval } from "react-use";
 
 import clsx from "clsx";
+import { useTheme } from "@nextui-org/react";
 
 interface BigTextProps {
   slides: Array<string>;
 }
 
 export default function BigText({ slides }: BigTextProps) {
+  const { isDark } = useTheme();
+
   const [currentSlide, setSlide] = React.useState(0);
 
   const totalSlides = slides.length;
@@ -32,7 +35,9 @@ export default function BigText({ slides }: BigTextProps) {
                 className={clsx(
                   "absolute transition duration-1000",
                   currentSlide !== index
-                    ? "opacity-100 dark:text-white dark:opacity-100"
+                    ? isDark
+                      ? "text-white opacity-100"
+                      : "opacity-100"
                     : "opacity-0"
                 )}
                 aria-hidden={true}

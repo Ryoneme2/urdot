@@ -8,10 +8,15 @@ import {
   useTheme,
 } from "@nextui-org/react";
 import { useTheme as useNextTheme } from "next-themes";
+import * as Component from "./index";
 
 const NavbarComp = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
+
+  const setDarkMode = () => {
+    setTheme(!isDark ? "dark" : "light");
+  };
 
   return (
     <Navbar isBordered={isDark} disableShadow={true} variant="floating">
@@ -30,7 +35,7 @@ const NavbarComp = () => {
         <Navbar.Link href="#">Company</Navbar.Link>
       </Navbar.Content> */}
       <Navbar.Content>
-        {type}
+        <Component.DarkModeIcon isDark={!!isDark} onClick={setDarkMode} />
         <Navbar.Link color="inherit" href="#">
           Login
         </Navbar.Link>

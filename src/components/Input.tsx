@@ -1,3 +1,5 @@
+import { useTheme } from "@nextui-org/react";
+import clsx from "clsx";
 import React from "react";
 
 type Props = {
@@ -7,9 +9,13 @@ type Props = {
 };
 
 const Input = (props: Props) => {
+  const { isDark } = useTheme();
   return (
     <input
-      className="w-[90%] max-w-[530px] rounded-full bg-white bg-opacity-25 py-3 px-4 text-lg text-white transition-all duration-500 focus:h-14 focus:max-w-[600px] focus:outline-none dark:bg-gray-400 dark:bg-opacity-20"
+      className={clsx(
+        "focus:outline-non w-[90%] max-w-[530px] rounded-full  bg-opacity-25 py-3 px-4 text-lg transition-all duration-500 focus:h-14 focus:max-w-[600px]",
+        isDark ? "bg-white text-white" : "bg-gray-400 text-gray-800"
+      )}
       type="text"
       {...props}
     />
