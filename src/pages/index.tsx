@@ -8,13 +8,16 @@ import * as Component from "../components";
 
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
-import { Loading } from "@nextui-org/react";
+import { Card, Loading, Text } from "@nextui-org/react";
 
 const Home: NextPage = () => {
   const [url, setUrl] = useState<string>("");
   const urlMutation = trpc.executeUrl.newUrl.useMutation();
 
   const handlerSubmit = () => urlMutation.mutate({ url: "https://google.com" });
+  const clickCopy = () => {
+    navigator.clipboard.writeText(urlMutation.data?.url?.shorterUrl || "");
+  };
 
   return (
     <>
@@ -24,7 +27,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout.MainLayout>
-        <div className="flex h-full w-full -translate-y-[50%] transform flex-col items-center justify-center gap-8">
+        <div className="flex h-full w-full -translate-y-[30%] transform flex-col items-center justify-center gap-8">
           <Component.SliderText slides={["urDot", "UrlShorter"]} />
           <Component.Input
             value={url}
@@ -59,6 +62,42 @@ const Home: NextPage = () => {
           />
           {urlMutation.error && (
             <p>Something went wrong! {urlMutation.error.message}</p>
+          )}
+          {urlMutation.isSuccess ? (
+            <Card
+              className="flex-grow-1 flex"
+              css={{ px: "$6", mw: "400px" }}
+              variant="bordered"
+            >
+              <Card.Body>
+                <div
+                  className="flex cursor-pointer items-center justify-between"
+                  onClick={clickCopy}
+                >
+                  <Text>{urlMutation.data?.url?.shorterUrl}</Text>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-copy"
+                      width={36}
+                      height={36}
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="#eeeeee"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <rect x={8} y={8} width={12} height={12} rx={2} />
+                      <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />
+                    </svg>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          ) : (
+            <></>
           )}
         </div>
       </Layout.MainLayout>

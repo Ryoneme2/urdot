@@ -18,9 +18,9 @@ const Input = (props: Props) => {
   return (
     <div
       className={clsx(
-        "flex w-[90%] max-w-[530px] items-center rounded-full bg-opacity-25  py-3 px-4 text-lg transition-all duration-500 ",
+        "sm:text-md flex w-[90%] max-w-[530px] items-center rounded-full bg-opacity-25 py-2 px-3 text-sm transition-all duration-500 md:py-3 md:px-4 md:text-lg ",
         isDark ? "bg-white text-white" : "bg-gray-400 text-gray-800",
-        isFocusd ? "h-14 max-w-[600px] outline-none" : ""
+        isFocusd ? "h-12 max-w-[600px] outline-none md:h-14" : ""
       )}
     >
       <input

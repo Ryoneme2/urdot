@@ -3,9 +3,10 @@ import React from "react";
 type Props = {
   isDark: boolean;
   onClick?: () => void;
+  size?: number;
 };
 
-const DarkModeIcon = ({ isDark, onClick }: Props) => {
+const DarkModeIcon = ({ isDark, onClick, size }: Props) => {
   return (
     <>
       <button onClick={onClick}>
@@ -13,8 +14,8 @@ const DarkModeIcon = ({ isDark, onClick }: Props) => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-brightness-down"
-            width={36}
-            height={36}
+            width={size || 36}
+            height={size || 36}
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#000000"
@@ -37,8 +38,8 @@ const DarkModeIcon = ({ isDark, onClick }: Props) => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-moon-stars"
-            width={33}
-            height={33}
+            width={size ? size - 3 : 33}
+            height={size ? size - 3 : 33}
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#eeeeee"
