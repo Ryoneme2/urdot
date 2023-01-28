@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const [url, setUrl] = useState<string>("");
   const urlMutation = trpc.executeUrl.newUrl.useMutation();
 
-  const handlerSubmit = () => urlMutation.mutate({ url: "https://google.com" });
+  const handlerSubmit = () => urlMutation.mutate({ url });
   const clickCopy = () => {
     navigator.clipboard.writeText(urlMutation.data?.url?.shorterUrl || "");
   };

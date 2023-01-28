@@ -5,9 +5,10 @@ import * as Component from "../components";
 
 type Props = {
   children: React.ReactNode;
+  withNavbar?: boolean;
 };
 
-const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children, withNavbar = true }: Props) => {
   const { isDark } = useTheme();
   return (
     <>
@@ -17,7 +18,7 @@ const MainLayout = ({ children }: Props) => {
           "bg-gradient-to-b from-[#F5F5F5] to-[#F5F5F5]": !isDark,
         })}
       >
-        <Component.Navbar />
+        {withNavbar && <Component.Navbar />}
         <div className="flex flex-grow flex-col items-center justify-center">
           {children}
         </div>

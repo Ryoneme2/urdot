@@ -3,8 +3,6 @@ import shortid from 'shortid'
 
 const prisma = new Prisma.PrismaClient();
 
-
-
 const $newUrl = async (url: string, createBy?: string | null) => {
   try {
 
@@ -24,7 +22,7 @@ const $newUrl = async (url: string, createBy?: string | null) => {
     const result = await prisma.shorterUrl.create({
       data: {
         id: uniqueString,
-        shorterUrl: `${prefix}/${uniqueString}`,
+        shorterUrl: `${prefix}/r/${uniqueString}`,
         urlId: urlData.id
       }
     })
@@ -44,6 +42,34 @@ const $newUrl = async (url: string, createBy?: string | null) => {
   }
 }
 
+const $getRealPath = async (path: string) => {
+  try {
+
+    const result = await prisma.shorterUrl.findFirst({
+      where: {
+        id: path
+      },
+      include: {
+        url: true
+      }
+    })
+
+    return {
+      url: result?.url.url || null,
+      success: true
+    };
+
+  } catch (e) {
+    console.error(e);
+
+    return {
+      msg: "Something went wrong",
+      success: false
+    };
+  }
+}
+
 export {
-  $newUrl
+  $newUrl,
+  $getRealPath
 }
