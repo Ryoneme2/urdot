@@ -6,7 +6,7 @@ type Props = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  rightIcon?: {
+  righticon?: {
     children: React.ReactNode;
     onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   };
@@ -30,12 +30,12 @@ const Input = (props: Props) => {
         type="text"
         {...props}
       />
-      {props.rightIcon && (
+      {props.righticon && (
         <div
           className="hover:shodow ml-2 flex cursor-pointer items-center justify-center"
-          onClick={props.rightIcon.onClick}
+          onClick={props.righticon.onClick}
         >
-          {props.rightIcon.children}
+          {props.righticon.children}
         </div>
       )}
     </div>

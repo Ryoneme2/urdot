@@ -8,11 +8,13 @@ import * as Component from "../components";
 
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
+import { Loading } from "@nextui-org/react";
 
 const Home: NextPage = () => {
-  // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
-
   const [url, setUrl] = useState<string>("");
+  const urlMutation = trpc.executeUrl.newUrl.useMutation();
+
+  const handlerSubmit = () => urlMutation.mutate({ url: "https://google.com" });
 
   return (
     <>
@@ -30,11 +32,11 @@ const Home: NextPage = () => {
               setUrl(event.target.value);
             }}
             placeholder="Place your url here..."
-            rightIcon={{
-              children: (
+            righticon={{
+              children: !urlMutation.isLoading ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 -translate-x-1 transition-all duration-300 hover:translate-x-[0.5px] hover:text-sky-300"
+                  className="h-7 w-7 -translate-x-1 text-gray-400 transition-all duration-300 hover:translate-x-[0.5px] hover:text-white"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -46,12 +48,18 @@ const Home: NextPage = () => {
                     d="M14 5l7 7m0 0l-7 7m7-7H3"
                   ></path>
                 </svg>
+              ) : (
+                <Loading color={"white"} type="points" />
               ),
-              onClick: () => {
+              onClick: async () => {
+                handlerSubmit();
                 console.log("clicked");
               },
             }}
           />
+          {urlMutation.error && (
+            <p>Something went wrong! {urlMutation.error.message}</p>
+          )}
         </div>
       </Layout.MainLayout>
     </>

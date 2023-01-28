@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  Navbar,
-  Button,
-  Link,
-  Text,
-  Switch,
-  useTheme,
-} from "@nextui-org/react";
+import { Navbar, Button, Link, Text, useTheme } from "@nextui-org/react";
 import { useTheme as useNextTheme } from "next-themes";
 import * as Component from "./index";
 
 const NavbarComp = () => {
   const { setTheme } = useNextTheme();
-  const { isDark, type } = useTheme();
+  const { isDark } = useTheme();
 
   const setDarkMode = () => {
     setTheme(!isDark ? "dark" : "light");
