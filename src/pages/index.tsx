@@ -22,7 +22,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout.MainLayout>
-        <div className="flex w-full -translate-y-[35%] transform flex-col items-center justify-center">
+        <div className="flex h-full w-full -translate-y-[50%] transform flex-col items-center justify-center gap-8">
           <Component.SliderText slides={["urDot", "UrlShorter"]} />
           <Component.Input
             value={url}
