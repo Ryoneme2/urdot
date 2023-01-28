@@ -12,11 +12,16 @@ import { Card, Loading, Text } from "@nextui-org/react";
 
 const Home: NextPage = () => {
   const [url, setUrl] = useState<string>("");
+  const [copy, setIsCopy] = useState<boolean>(false);
   const urlMutation = trpc.executeUrl.newUrl.useMutation();
 
   const handlerSubmit = () => urlMutation.mutate({ url });
   const clickCopy = () => {
     navigator.clipboard.writeText(urlMutation.data?.url?.shorterUrl || "");
+    setIsCopy(true);
+    setTimeout(() => {
+      setIsCopy(false);
+    }, 2000);
   };
 
   return (
@@ -27,6 +32,29 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout.MainLayout>
+        {copy && (
+          <div className="absolute bottom-0 bg-green-600 px-4 py-3 text-white">
+            <p className="flex items-center gap-2 text-center text-sm font-medium">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-check"
+                width={26}
+                height={26}
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="#ffffff"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12l5 5l10 -10" />
+              </svg>
+              Copied to clipboard!
+            </p>
+          </div>
+        )}
+
         <div className="flex h-full w-full -translate-y-[30%] transform flex-col items-center justify-center gap-8">
           <Component.SliderText slides={["urDot", "UrlShorter"]} />
           <Component.Input
