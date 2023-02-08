@@ -27,7 +27,7 @@ const MainLayout = ({
         <div
           className={clsx("flex flex-grow flex-col", {
             "items-center justify-center": centered,
-            "items-start justify-start": !centered,
+            // "items-start justify-start": !centered,
           })}
         >
           {children}

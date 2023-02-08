@@ -5,5 +5,7 @@ export { default as DarkModeIcon } from './DarkModeIcons'
 export { default as ModalRegister } from './ModalRegister'
 export { default as ModalLogin } from './ModalLogin'
 export { default as SignProvider } from './SignProvider'
+export { default as BoxShowLink } from './BoxShowLink'
+export { default as BoxShowLoading } from './BoxShowLoading'
 
 

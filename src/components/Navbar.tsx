@@ -10,11 +10,13 @@ import {
 import { useTheme as useNextTheme } from "next-themes";
 import * as Component from "./index";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const NavbarComp = () => {
   const { setTheme } = useNextTheme();
   const { isDark } = useTheme();
   const { data: sessionData } = useSession();
+  const router = useRouter();
 
   console.log(sessionData);
 
@@ -27,11 +29,13 @@ const NavbarComp = () => {
   return (
     <Navbar isBordered={isDark} disableShadow={true} variant="floating">
       <Navbar.Brand
+        className="cursor-pointer"
         css={{
           "@xs": {
             w: "12%",
           },
         }}
+        onClick={() => router.push("/")}
       >
         <Navbar.Toggle showIn="xs" aria-label="toggle navigation" />
         <svg
@@ -110,7 +114,7 @@ const NavbarComp = () => {
                 </Text>
               </Dropdown.Item>
               <Dropdown.Item key="analytics" withDivider>
-                My Link
+                <Text onClick={() => router.push("/links")}>My Link</Text>
               </Dropdown.Item>
               <Dropdown.Item key="settings" withDivider>
                 My Settings

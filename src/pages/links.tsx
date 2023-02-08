@@ -24,14 +24,22 @@ const MyLink: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout.MainLayout centered={false}>
-        <ul>
-          {myLink?.urls &&
-            myLink.urls.map((link) => (
-              <li key={link.id}>
-                <a href={link.url}>{link.shorterUrls?.shorterUrl}</a>
-              </li>
-            ))}
-        </ul>
+        <div className="mt-4 flex justify-center px-14">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {myLink?.urls
+              ? myLink.urls.map((link) => (
+                  <Component.BoxShowLink
+                    key={link.id}
+                    base={link.url}
+                    clickedNum={link.clicks}
+                    shorted={link.shorterUrls?.shorterUrl || "Link is expired"}
+                  />
+                ))
+              : new Array(12)
+                  .fill({})
+                  .map((_, index) => <Component.BoxShowLoading key={index} />)}
+          </div>
+        </div>
       </Layout.MainLayout>
     </>
   );
