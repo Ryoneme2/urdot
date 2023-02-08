@@ -6,7 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  // provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

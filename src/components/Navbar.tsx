@@ -1,11 +1,23 @@
 import React from "react";
-import { Navbar, Button, Link, Text, useTheme } from "@nextui-org/react";
+import {
+  Navbar,
+  Button,
+  Link,
+  Text,
+  useTheme,
+  Dropdown,
+  Avatar,
+} from "@nextui-org/react";
 import { useTheme as useNextTheme } from "next-themes";
 import * as Component from "./index";
+import { useSession } from "next-auth/react";
 
 const NavbarComp = () => {
   const { setTheme } = useNextTheme();
   const { isDark } = useTheme();
+  const { data: sessionData } = useSession();
+
+  console.log(sessionData);
 
   const setDarkMode = () => {
     setTheme(!isDark ? "dark" : "light");
@@ -14,34 +26,6 @@ const NavbarComp = () => {
   const collapseItems = ["Sign In", "Sign Up"];
 
   return (
-    // <Navbar isBordered={isDark} disableShadow={true} variant="floating">
-    //   <Navbar.Brand>
-    //     {/* <AcmeLogo /> */}
-    //     <Text b color="inherit" hideIn="xs">
-    //       ACME
-    //     </Text>
-    //   </Navbar.Brand>
-    //   {/* <Navbar.Content enableCursorHighlight hideIn="xs" variant="underline">
-    //     <Navbar.Link href="#">Features</Navbar.Link>
-    //     <Navbar.Link isActive href="#">
-    //       Customers
-    //     </Navbar.Link>
-    //     <Navbar.Link href="#">Pricing</Navbar.Link>
-    //     <Navbar.Link href="#">Company</Navbar.Link>
-    //   </Navbar.Content> */}
-    //   <Navbar.Content>
-    //     <Component.DarkModeIcon isDark={!!isDark} onClick={setDarkMode} />
-    //     <Navbar.Link color="inherit" href="#">
-    //       Login
-    //     </Navbar.Link>
-    //     <Navbar.Item>
-    //       <Button auto flat as={Link} href="#">
-    //         Sign Up
-    //       </Button>
-    //     </Navbar.Item>
-    //   </Navbar.Content>
-    // </Navbar>
-
     <Navbar isBordered={isDark} disableShadow={true} variant="floating">
       <Navbar.Brand
         css={{
@@ -68,7 +52,7 @@ const NavbarComp = () => {
           />
         </svg>
         <Text b color="inherit" hideIn="xs">
-          ACME
+          URDOT
         </Text>
       </Navbar.Brand>
       {/* <Navbar.Content enableCursorHighlight hideIn="xs" variant="underline">
@@ -95,17 +79,61 @@ const NavbarComp = () => {
         }}
         hideIn="xs"
       >
-        <Navbar.Link color="inherit" href="#">
-          Login
-        </Navbar.Link>
-        <Navbar.Item>
-          <Button auto flat as={Link} href="#">
-            Sign Up
-          </Button>
-        </Navbar.Item>
+        <Component.DarkModeIcon
+          size={30}
+          isDark={!!isDark}
+          onClick={setDarkMode}
+        />
+        {sessionData?.user ? (
+          <Dropdown placement="bottom-right">
+            <Navbar.Item>
+              <Dropdown.Trigger>
+                <Avatar
+                  bordered
+                  as="button"
+                  color="secondary"
+                  size="md"
+                  src={sessionData.user.image || ""}
+                />
+              </Dropdown.Trigger>
+            </Navbar.Item>
+            <Dropdown.Menu
+              aria-label="User menu actions"
+              color="secondary"
+              onAction={(actionKey) => console.log({ actionKey })}
+            >
+              <Dropdown.Item key="profile" css={{ height: "$18" }}>
+                <Text b color="inherit" css={{ d: "flex" }}>
+                  Signed in as
+                </Text>
+                <Text b color="inherit" css={{ d: "flex" }}>
+                  {sessionData.user.email}
+                </Text>
+              </Dropdown.Item>
+              <Dropdown.Item key="analytics" withDivider>
+                My Link
+              </Dropdown.Item>
+              <Dropdown.Item key="settings" withDivider>
+                My Settings
+              </Dropdown.Item>
+              <Dropdown.Item key="logout" withDivider color="error">
+                Log Out
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <>
+            <Navbar.Item>
+              <Component.ModalLogin />
+            </Navbar.Item>
+            <Navbar.Item>
+              <Component.ModalRegister />
+            </Navbar.Item>
+          </>
+        )}
       </Navbar.Content>
       <Navbar.Collapse>
-        {collapseItems.map((item, index) => (
+        {collapseItems.map((item) => (
           <Navbar.CollapseItem key={item}>
             <Link
               color="inherit"
@@ -124,3 +152,26 @@ const NavbarComp = () => {
 };
 
 export default NavbarComp;
+
+// const AuthShowcase: React.FC = () => {
+//   const { data: sessionData } = useSession();
+
+//   const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
+//     undefined, // no input
+//     { enabled: sessionData?.user !== undefined }
+//   );
+
+//   return (
+//     <div className="flex flex-col items-center justify-center gap-4">
+//       <p className="text-center text-2xl text-white">
+//         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+//         {secretMessage && <span> - {secretMessage}</span>}
+//       </p>
+//       <button
+//         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+//         onClick={sessionData ? () => signOut() : () => signIn("discord")}
+//       >
+//         {sessionData ? "Sign out" : "Sign in"}
+//       </button>
+//     </div>
+//   );
