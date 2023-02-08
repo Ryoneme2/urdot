@@ -16,9 +16,22 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async redirect(params) {
+      const { url } = params
+
+      // url is just a path, e.g.: /videos/pets
+      if (!url.startsWith('http')) return url
+
+      // If we have a callback use only its relative path
+      const callbackUrl = new URL(url).searchParams.get('callbackUrl')
+      if (!callbackUrl) return url
+
+      return new URL(callbackUrl as string).pathname
+    },
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
+  secret: env.NEXTAUTH_SECRET,
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
