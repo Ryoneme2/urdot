@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useTheme as useNextTheme } from "next-themes";
 import * as Component from "./index";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const NavbarComp = () => {
   const { setTheme } = useNextTheme();
@@ -117,7 +117,9 @@ const NavbarComp = () => {
                 My Settings
               </Dropdown.Item>
               <Dropdown.Item key="logout" withDivider color="error">
-                Log Out
+                <Text color="error" onClick={() => signOut()}>
+                  Log Out
+                </Text>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
