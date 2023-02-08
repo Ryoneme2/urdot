@@ -1,4 +1,16 @@
-export const Mail = ({ fill, size, height, width, ...props }: any) => {
+export const Mail = ({
+  fill,
+  size,
+  height,
+  width,
+  ...props
+}: {
+  fill: string;
+  size?: number;
+  height?: number;
+  width?: number;
+  [x: string]: string | number | undefined;
+}) => {
   return (
     <svg
       width={size || width || 24}

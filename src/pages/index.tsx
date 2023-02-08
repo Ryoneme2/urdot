@@ -7,7 +7,6 @@ import * as Component from "../components";
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
 import { Card, Loading, Text } from "@nextui-org/react";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const [url, setUrl] = useState<string>("");
