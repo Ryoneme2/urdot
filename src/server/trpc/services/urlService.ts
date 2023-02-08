@@ -54,6 +54,22 @@ const $getRealPath = async (path: string) => {
       }
     })
 
+    if (!result) return {
+      url: null,
+      success: false
+    }
+
+    await prisma.url.update({
+      where: {
+        id: result.url.id
+      },
+      data: {
+        clicks: {
+          increment: 1
+        }
+      }
+    })
+
     return {
       url: result?.url.url || null,
       success: true
@@ -69,7 +85,35 @@ const $getRealPath = async (path: string) => {
   }
 }
 
+const $getUrls = async (userId: string) => {
+  try {
+
+    const result = await prisma.url.findMany({
+      where: {
+        createById: userId
+      },
+      include: {
+        shorterUrls: true
+      }
+    })
+
+    return {
+      urls: result,
+      success: true
+    };
+
+  } catch (e) {
+    console.error(e);
+
+    return {
+      msg: "Something went wrong",
+      success: false
+    };
+  }
+}
+
 export {
   $newUrl,
-  $getRealPath
+  $getRealPath,
+  $getUrls,
 }

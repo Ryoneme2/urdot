@@ -6,9 +6,14 @@ import * as Component from "../components";
 type Props = {
   children: React.ReactNode;
   withNavbar?: boolean;
+  centered?: boolean;
 };
 
-const MainLayout = ({ children, withNavbar = true }: Props) => {
+const MainLayout = ({
+  children,
+  withNavbar = true,
+  centered = true,
+}: Props) => {
   const { isDark } = useTheme();
   return (
     <>
@@ -19,7 +24,12 @@ const MainLayout = ({ children, withNavbar = true }: Props) => {
         })}
       >
         {withNavbar && <Component.Navbar />}
-        <div className="flex flex-grow flex-col items-center justify-center">
+        <div
+          className={clsx("flex flex-grow flex-col", {
+            "items-center justify-center": centered,
+            "items-start justify-start": !centered,
+          })}
+        >
           {children}
         </div>
       </main>

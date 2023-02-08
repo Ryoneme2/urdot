@@ -7,13 +7,17 @@ import * as Component from "../components";
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
 import { Card, Loading, Text } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const [url, setUrl] = useState<string>("");
   const [copy, setIsCopy] = useState<boolean>(false);
   const urlMutation = trpc.executeUrl.newUrl.useMutation();
+  const { data } = useSession();
 
-  const handlerSubmit = () => urlMutation.mutate({ url });
+  const handlerSubmit = () =>
+    urlMutation.mutate({ url, author: data?.user?.id || null });
+
   const clickCopy = () => {
     navigator.clipboard.writeText(urlMutation.data?.url?.shorterUrl || "");
     setIsCopy(true);
@@ -29,7 +33,7 @@ const Home: NextPage = () => {
         <meta name="description" content="website that make your url shorter" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <AuthShowcase /> */}
+
       <Layout.MainLayout>
         {copy && (
           <div className="absolute bottom-0 bg-green-600 px-4 py-3 text-white">
