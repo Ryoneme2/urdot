@@ -6,6 +6,7 @@ import {
   useTheme,
   Dropdown,
   Avatar,
+  Divider,
 } from "@nextui-org/react";
 import { useTheme as useNextTheme } from "next-themes";
 import * as Component from "./index";
@@ -25,7 +26,30 @@ const NavbarComp = () => {
     setTheme(!isDark ? "dark" : "light");
   };
 
-  const collapseItems = ["Sign In", "Sign Up"];
+  const collapseItems = [
+    {
+      label: "Sign In",
+      onClick: () => router.push("/auth/signin"),
+    },
+    {
+      label: "Sign Up",
+      onClick: () => router.push("/auth/signup"),
+    },
+  ];
+  const collapseItemsLoggedIn = [
+    {
+      label: "My Setting",
+      onClick: () => null,
+    },
+    {
+      label: "My Link",
+      onClick: () => router.push("/links"),
+    },
+    {
+      label: "Sign Out",
+      onClick: () => signOut(),
+    },
+  ];
 
   return (
     <Navbar isBordered={isDark} disableShadow={true} variant="floating">
@@ -124,45 +148,56 @@ const NavbarComp = () => {
         )}
       </Navbar.Content>
       <Navbar.Collapse>
-        {collapseItems.map((item) => (
-          <Navbar.CollapseItem key={item}>
-            <Link
-              color="inherit"
-              css={{
-                minWidth: "100%",
-              }}
-              href="#"
-            >
-              {item}
-            </Link>
-          </Navbar.CollapseItem>
-        ))}
+        {sessionData?.user ? (
+          <>
+            <Navbar.CollapseItem className="mt-2">
+              <Avatar
+                bordered
+                as="button"
+                color="secondary"
+                size="md"
+                src={sessionData.user.image || ""}
+              />
+              <Text b color="inherit" css={{ d: "flex", marginLeft: "8px" }}>
+                {sessionData.user.name}
+              </Text>
+            </Navbar.CollapseItem>
+            <Divider css={{ marginTop: "0.45rem", marginBottom: "0.75rem" }} />
+            {collapseItemsLoggedIn.map((item, index) => (
+              <Navbar.CollapseItem
+                key={item.label}
+                activeColor="warning"
+                css={{
+                  color:
+                    index === collapseItemsLoggedIn.length - 1 ? "$error" : "",
+                }}
+                isActive={index === 2}
+              >
+                <Link
+                  color="inherit"
+                  css={{
+                    minWidth: "100%",
+                  }}
+                  onClick={item.onClick}
+                >
+                  {item.label}
+                </Link>
+              </Navbar.CollapseItem>
+            ))}
+          </>
+        ) : (
+          <>
+            <Navbar.CollapseItem>
+              <Component.ModalLogin />
+            </Navbar.CollapseItem>
+            <Navbar.CollapseItem>
+              <Component.ModalRegister />
+            </Navbar.CollapseItem>
+          </>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );
 };
 
 export default NavbarComp;
-
-// const AuthShowcase: React.FC = () => {
-//   const { data: sessionData } = useSession();
-
-//   const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
-//     undefined, // no input
-//     { enabled: sessionData?.user !== undefined }
-//   );
-
-//   return (
-//     <div className="flex flex-col items-center justify-center gap-4">
-//       <p className="text-center text-2xl text-white">
-//         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-//         {secretMessage && <span> - {secretMessage}</span>}
-//       </p>
-//       <button
-//         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-//         onClick={sessionData ? () => signOut() : () => signIn("discord")}
-//       >
-//         {sessionData ? "Sign out" : "Sign in"}
-//       </button>
-//     </div>
-//   );
