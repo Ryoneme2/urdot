@@ -1,17 +1,10 @@
-import {
-  GetServerSideProps,
-  type NextPage,
-  type GetServerSidePropsContext,
-} from "next";
+import { type NextPage, type GetServerSidePropsContext } from "next";
 import Head from "next/head";
 
 import * as Layout from "../layouts";
 import * as Component from "../components";
 
 import { trpc } from "../utils/trpc";
-import { useState } from "react";
-import { Card, Loading, Text } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 
 const MyLink: NextPage = () => {
   const { data: myLink } = trpc.URL.getAllUrls.useQuery();
