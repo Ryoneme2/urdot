@@ -6,7 +6,7 @@ const prisma = new Prisma.PrismaClient();
 const $newUrl = async (url: string, createBy?: string | null) => {
   try {
 
-    const prefix = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'urdot.vercel.app'
+    const prefix = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXTAUTH_URL
 
     console.log({ prefix, url, createBy });
 
