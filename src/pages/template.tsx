@@ -8,8 +8,6 @@ import { trpc } from "../utils/trpc";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Template: NextPage = () => {
-  const { data: myLink } = trpc.URL.getAllUrls.useQuery();
-
   return (
     <>
       <Head>
@@ -28,49 +26,21 @@ const Template: NextPage = () => {
           content="Let's Make every line shorter and easy to send to your client."
         />
         <meta property="og:image" content={"/1.png"} />
-        <link rel="icon" href="/250px.jpg" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout.MainLayout centered={false}>
-        <div className="mt-4 flex justify-center px-14">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {myLink?.urls
-              ? myLink.urls.map((link) => (
-                  <Component.BoxShowLink
-                    key={link.id}
-                    base={link.url}
-                    clickedNum={link.clicks}
-                    shorted={link.shorterUrls?.shorterUrl || "Link is expired"}
-                  />
-                ))
-              : new Array(12)
-                  .fill({})
-                  .map((_, index) => <Component.BoxShowLoading key={index} />)}
-          </div>
-        </div>
-      </Layout.MainLayout>
+      <Layout.MainLayout centered={false}>{}</Layout.MainLayout>
     </>
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const cookieName = `${
-    process.env.NODE_ENV === "production" ? "__Secure-" : ""
-  }next-auth.session-token`;
+export default Template;
 
-  const cookies: string | null = JSON.parse(
-    JSON.stringify(context.req.cookies)
-  )[cookieName];
-
-  if (!cookies)
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/",
-      },
-      props: {},
-    };
-
+export async function getServerSideProps() {
   return {
+    redirect: {
+      permanent: false,
+      destination: "/",
+    },
     props: {},
   };
 }
