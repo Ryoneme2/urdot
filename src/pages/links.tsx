@@ -46,9 +46,13 @@ const MyLink: NextPage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookieName = `${
+    process.env.NODE_ENV === "production" ? "__Secure-" : ""
+  }next-auth.session-token`;
+
   const cookies: string | null = JSON.parse(
     JSON.stringify(context.req.cookies)
-  )["next-auth.session-token"];
+  )[cookieName];
 
   if (!cookies)
     return {
