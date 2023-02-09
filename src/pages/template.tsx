@@ -6,7 +6,8 @@ import * as Component from "../components";
 
 import { trpc } from "../utils/trpc";
 
-const MyLink: NextPage = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Template: NextPage = () => {
   const { data: myLink } = trpc.URL.getAllUrls.useQuery();
 
   return (
@@ -73,5 +74,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {},
   };
 }
-
-export default MyLink;

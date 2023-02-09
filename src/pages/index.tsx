@@ -29,9 +29,22 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>urDot UrlShorter</title>
-        <meta name="description" content="website that make your url shorter" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>urDot : URL Shorter</title>
+        <meta
+          name="description"
+          content="Let's Make every line shorter and easy to send to your client."
+        />
+        <meta property="og:url" content="https://urdot.vercel.app" />
+        <meta property="og:type" content="website" />
+        <meta property="fb:app_id" content="minrer" />
+        <meta property="og:title" content={"rDot : URL Shorter"} />
+        <meta name="twitter:card" content="summary" />
+        <meta
+          property="og:description"
+          content="Let's Make every line shorter and easy to send to your client."
+        />
+        <meta property="og:image" content={"/1.png"} />
+        <link rel="icon" href="/250px.jpg" />
       </Head>
 
       <Layout.MainLayout>
