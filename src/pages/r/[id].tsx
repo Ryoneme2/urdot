@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { trpc } from "../../utils/trpc";
 import * as Layout from "../../layouts";
 import { Loading } from "@nextui-org/react";
+import Head from "next/head";
 
 const Redirecting: NextPage = () => {
   const router = useRouter();
@@ -21,6 +22,24 @@ const Redirecting: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>urDot : URL Shorter</title>
+        <meta
+          name="description"
+          content="Let's Make every line shorter and easy to send to your client."
+        />
+        <meta property="og:url" content="https://urdot.vercel.app" />
+        <meta property="og:type" content="website" />
+        <meta property="fb:app_id" content="minrer" />
+        <meta property="og:title" content={"rDot : URL Shorter"} />
+        <meta name="twitter:card" content="summary" />
+        <meta
+          property="og:description"
+          content="Let's Make every line shorter and easy to send to your client."
+        />
+        <meta property="og:image" content={"https://urdot.vercel.app/1.png"} />
+        <link rel="icon" href="/250px.jpg" />
+      </Head>
       {data.isLoading ? (
         <Layout.MainLayout withNavbar={false}>
           <div className="container mx-auto my-8 flex flex-col items-center justify-center space-y-8 px-5 text-center sm:max-w-md">
