@@ -26,7 +26,7 @@ const MyLink: NextPage = () => {
           property="og:description"
           content="Let's Make every line shorter and easy to send to your client."
         />
-        <meta property="og:image" content={"/1.png"} />
+        <meta property="og:image" content={"https://urdot.vercel.app/1.png"} />
         <link rel="icon" href="/250px.jpg" />
       </Head>
       <Layout.MainLayout centered={false}>
